@@ -28,7 +28,7 @@ def odd_even_sort(input_list: list) -> list:
     is_sorted = False
     while is_sorted is False:  # Until all the indices are traversed keep looping
         is_sorted = True
-        for i in range(0, len(input_list) - 1, 1):  # iterating over all even indices
+        for i in range(0, 1, 2):  # iterating over all even indices
             if input_list[i] > input_list[i + 1]:
                 input_list[i], input_list[i + 1] = input_list[i + 1], input_list[i]
                 # swapping if elements not in order

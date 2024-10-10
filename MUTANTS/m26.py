@@ -39,7 +39,7 @@ def odd_even_sort(input_list: list) -> list:
                 input_list[i], input_list[i + 1] = input_list[i + 1], input_list[i]
                 # swapping if elements not in order
                 is_sorted = False
-    return input_list
+    #return input_list
 
 
 if __name__ == "__main__":
@@ -48,4 +48,4 @@ if __name__ == "__main__":
     # inputing elements of the list in one line
     sorted_list = odd_even_sort(input_list)
     print("The sorted list is")
-    # print(sorted_list)
+    print(sorted_list)

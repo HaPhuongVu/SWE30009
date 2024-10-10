@@ -12,9 +12,9 @@ from p import odd_even_sort  # Adjust based on the actual file name
 # Base test cases without follow-up numbers
 mr1_base_cases = [
     ([5, 10, 3], 2),
-    ([7, 7, 15], 1),
+    ([7, 8, 15], 1),
     ([8, 20, 11, 9], 29),
-    ([4, 1, 1, 3], 2),
+    ([4, 1, 3], 2),
     ([4, 8, 14, 3], 11),
 ]
 

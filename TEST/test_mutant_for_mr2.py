@@ -13,13 +13,13 @@ from test_mr2 import get_mr_outputs
 # Get the expected outputs from MR2
 expected_outputs = get_mr_outputs()
 
-# Test cases: original list and number to be added
+# Test cases: original list (no extra number added)
 test_cases = [
-    ([7, 11, 1], 2),  # k = 2
-    ([6, 2, 5, 4], 1),  # k = 1
-    ([3, 18, 20, 0], 5),  # k = 5
-    ([4, 9, 12, 19], 4),  # k = 4
-    ([13, 22, 35], 3),  # k = 3
+    [9, 13, 3],
+    [7, 3, 6, 5],
+    [8, 23, 25, 5],
+    [8, 13, 16, 23],
+    [16, 25, 28],
 ]
 
 def import_mutant(mutant_name):
@@ -41,36 +41,30 @@ def run_tests_for_mutant(mutant_name, test_cases, expected_outputs):
 
         # Loop through all test cases
         for case, expected_output in zip(test_cases, expected_outputs):
-            source_list, add_number = case
+            source_list = case
 
-            # First sort the original source list
-            sorted_source = odd_even_sort(source_list[:])  # Sort the original list (source test case)
-
-            # Then prepare the follow-up list by adding the new number
-            follow_up_list = sorted_source + [add_number]
-            sorted_follow_up = odd_even_sort(follow_up_list.copy())  # Sort the modified list (follow-up test case)
+            # Sort the original source list
+            sorted_source = odd_even_sort(source_list[:])  # Sort the original list
 
             # Compare the mutant's output with the expected output
-            result = "Survived" if sorted_follow_up == expected_output else "Killed"
+            result = "Survived" if sorted_source == expected_output else "Killed"
 
             # Append detailed results to the list
             results.append([
                 mutant_name,
                 source_list,
-                add_number,
-                sorted_follow_up,
+                sorted_source,
                 expected_output,
                 result
             ])
     except Exception as e:
         # In case of error, treat the mutant as killed and add the error message
         for case, expected_output in zip(test_cases, expected_outputs):
-            source_list, add_number = case
+            source_list = case
             results.append([
                 mutant_name,
                 source_list,          # Source list
-                add_number,           # Added number
-                "Error",              # Sorted follow-up marked as error
+                "Error",              # Sorted list marked as error
                 expected_output,      # Expected output
                 f"Killed"
             ])
@@ -90,7 +84,7 @@ if __name__ == "__main__":
         all_results.extend(results)  # Append all results from this mutant
 
     # Define table headers
-    headers = ["Mutant", "Source List", "Added Number", "Mutant Outputs", "Expected Output", "Result"]
+    headers = ["Mutant", "Source List", "Mutant Outputs", "Expected Output", "Result"]
 
     # Display the results as a table
     print(tabulate(all_results, headers, tablefmt="grid"))

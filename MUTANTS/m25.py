@@ -44,7 +44,7 @@ def odd_even_sort(input_list: list) -> list:
 
 if __name__ == "__main__":
     print("Enter list to be sorted")
-    input_list = [int(x * -1) for x in input().split()]
+    input_list = [int(x) for x*-1 in input().split()]
     # inputing elements of the list in one line
     sorted_list = odd_even_sort(input_list)
     print("The sorted list is")
