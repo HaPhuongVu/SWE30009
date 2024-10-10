@@ -10,7 +10,7 @@ sys.path.insert(0, original_dir)
 from odd_even_sort import odd_even_sort  # Adjust based on the actual file name
 
 # Base test cases without follow-up numbers
-mr1_base_cases = [
+mr1_test_cases = [
     ([5, 10, 3], 2),
     ([7, 8, 15], 1),
     ([8, 20, 11, 9], 29),
@@ -21,7 +21,7 @@ mr1_base_cases = [
 def get_mr_outputs():
     """ Return only the final sorted outputs from MR1 test cases """
     expected_outputs = []
-    for source_list, add_number in mr1_base_cases:
+    for source_list, add_number in mr1_test_cases:
         # Sort the original list
         sorted_source = odd_even_sort(source_list)
 
@@ -35,7 +35,7 @@ def get_mr_outputs():
 
 def test_mr1():
     """ Test the MR and verify the output is correct """
-    for source_list, add_number in mr1_base_cases:
+    for source_list, add_number in mr1_test_cases:
         # Sort the original source list using the original odd_even_sort
         sorted_source = odd_even_sort(source_list[:])  # Sort the original list
 
@@ -49,6 +49,6 @@ def test_mr1():
 if __name__ == "__main__":
     test_mr1()
     expected_outputs = get_mr_outputs()
-    for case, output in zip(mr1_base_cases, expected_outputs):
+    for case, output in zip(mr1_test_cases, expected_outputs):
         source_list, add_number = case
         print(f"Expected output for source_list={source_list} with added number={add_number}: {output}")
