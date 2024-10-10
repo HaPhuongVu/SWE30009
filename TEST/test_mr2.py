@@ -7,7 +7,7 @@ original_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), '../SUT')
 sys.path.insert(0, original_dir)
 
 # Import the original odd_even_sort function
-from p import odd_even_sort  # Adjust based on the actual file name
+from odd_even_sort import odd_even_sort  # Adjust based on the actual file name
 
 # Test cases for MR2
 mr2_test_cases = [
