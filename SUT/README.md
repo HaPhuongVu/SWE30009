@@ -26,10 +26,12 @@ The original source code is from https://github.com/TheAlgorithms/Python/blob/ma
 - **MUTANTS/**: Directory containing 30 mutants named `m1.py` to `m30.py`.
 - **SUT/**: Contains the original implementation of the `odd_even_sort` function.
 - **TEST/**: Contains the test script for two MRs and test for mutants.
-  1. /test_mr1.py: Script for generating expected outputs based on Metamorphic Relation 1.
-  2. /test_mr2.py: Script for generating expected outputs based on Metamorphic Relation 2.
-  3. /test_mutant_for_mr1.py: Script for test whether the output of MR1 is equal to output of mutants, and generate out the comparision result.
-  4. test_mutant_for_mr2.py: Script for test whether the output of MR2 is equal to output of mutants, and generate out the comparision result.
+  1. /test_cases_mr1.py: Contain generated test cases for MR1
+  2. /test_cases_mr2.py: Contain generated test cases for MR2
+  3. /test_mr1.py: Script for generating expected outputs based on Metamorphic Relation 1.
+  4. /test_mr2.py: Script for generating expected outputs based on Metamorphic Relation 2.
+  5. /test_mutant_for_mr1.py: Script for test whether the output of MR1 is equal to output of mutants, and generate out the comparision result.
+  6. test_mutant_for_mr2.py: Script for test whether the output of MR2 is equal to output of mutants, and generate out the comparision result.
 
 ## How to Run Test Script
 

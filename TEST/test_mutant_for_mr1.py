@@ -2,25 +2,15 @@ import sys
 import os
 import importlib
 from tabulate import tabulate
+from test_cases_mr1 import test_cases
 
-# Add the directory where the mutants are located to the system path
 mutant_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), '../MUTANTS'))
 sys.path.insert(0, mutant_dir)
 
-# Import the function to get expected outputs
 from test_mr1 import get_mr_outputs
 
-# Get the expected outputs from MR
+# Get the expected outputs from MR1
 expected_outputs = get_mr_outputs()
-
-# Base test cases with numbers to be added
-test_cases = [
-    ([5, 10, 3], 2),
-    ([7, 8, 15], 1),
-    ([8, 20, 11, 9], 29),
-    ([4, 1, 3], 2),
-    ([4, 8, 14, 3], 11),
-]
 
 def import_mutant(mutant_name):
     """
@@ -33,22 +23,16 @@ def import_mutant(mutant_name):
 
 def run_tests_for_mutant(mutant_name, test_cases, expected_outputs):
     """ Run all test cases for a given mutant and return the detailed result """
-    results = []  # Store results for each test case
+    results = []
 
     try:
-        # Import the odd_even_sort function for this mutant
         odd_even_sort = import_mutant(mutant_name)
-
-        # Loop through all test cases
-        for case, expected_output in zip(test_cases, expected_outputs):
-            source_list, add_number = case
-
+        for (source_list, follow_up_list), expected_output in zip(test_cases, expected_outputs):
             # First sort the original source list
             sorted_source = odd_even_sort(source_list[:])  # Sort the original list (source test case)
 
-            # Then prepare the follow-up list by adding the new number
-            follow_up_list = sorted_source + [add_number]
-            sorted_follow_up = odd_even_sort(follow_up_list.copy())  # Sort the modified list (follow-up test case)
+            # Then sort the follow-up list
+            sorted_follow_up = odd_even_sort(follow_up_list[:])  # Sort the follow-up list
 
             # Compare the mutant's output with the expected output
             result = "Survived" if sorted_follow_up == expected_output else "Killed"
@@ -56,41 +40,35 @@ def run_tests_for_mutant(mutant_name, test_cases, expected_outputs):
             # Append detailed results to the list
             results.append([
                 mutant_name,
-                source_list,
-                add_number,
-                sorted_follow_up,
-                expected_output,
-                result
+                source_list,  # Source list
+                follow_up_list,  # Follow-up list
+                sorted_follow_up,  # Mutant's output
+                expected_output,  # Expected output
+                result  # Result
             ])
     except Exception as e:
-        # In case of error, treat the mutant as killed and add the error message
-        for case, expected_output in zip(test_cases, expected_outputs):
-            source_list, add_number = case
+        # In case of error, treat the mutant as killed
+        for (source_list, follow_up_list), expected_output in zip(test_cases, expected_outputs):
             results.append([
                 mutant_name,
-                source_list,          # Source list
-                add_number,           # Added number
-                "Error",              # Sorted follow-up marked as error
-                expected_output,      # Expected output
+                source_list,
+                follow_up_list,
+                "Error",
+                expected_output,
                 f"Killed"
             ])
 
     return results
 
 if __name__ == "__main__":
-    # Collect results in a list for all mutants
     all_results = []
 
     # Loop over each mutant file (from m1 to m30)
     for i in range(1, 31):
-        mutant_name = f"m{i}"  # Mutant file names (m1, m2, ..., m30)
-
-        # Run tests for each mutant and collect the results
+        mutant_name = f"m{i}"
         results = run_tests_for_mutant(mutant_name, test_cases, expected_outputs)
         all_results.extend(results)  # Append all results from this mutant
 
-    # Define table headers
-    headers = ["Mutant", "Source List", "Added Number", "Mutant Outputs", "Expected Output", "Result"]
-
-    # Display the results as a table
+    # Display result as table
+    headers = ["Mutant", "Source List", "Follow-up List", "Mutant Outputs", "Expected Output", "Result"]
     print(tabulate(all_results, headers, tablefmt="grid"))
