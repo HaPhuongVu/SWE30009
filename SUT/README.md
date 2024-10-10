@@ -19,7 +19,9 @@ The original source code is from https://github.com/TheAlgorithms/Python/blob/ma
 
 ## List of Test Cases
 
-- All the list of test cases being used is in the same file with relevant MRs.
+- All the list of test cases being used is in folder TEST.
+- Test case for MR1 is in file test_cases_mr1.py
+- Test case for MR2 is in file test_cases_mr2.py
 
 ## Project Structure
 
