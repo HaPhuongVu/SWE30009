@@ -36,7 +36,7 @@ The original source code is from https://github.com/TheAlgorithms/Python/blob/ma
   6. test_mutant_for_mr2.py: Script for test whether the output of MR2 is equal to output of mutants, and generate out the comparision result.
 
 ## How to Run Test Script
-
+- Please install tabulate library using command: pip install tabulate
 - Direct to the correct file: cd TEST/<test_file_name>
 - Run command: py <file_name>
 
