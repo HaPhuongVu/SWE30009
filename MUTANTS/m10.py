@@ -34,7 +34,7 @@ def odd_even_sort(input_list: list) -> list:
                 # swapping if elements not in order
                 is_sorted = False
 
-        for i in range(1, len(input_list), 2):  # iterating over all odd indices
+        for i in range(1, len(input_list) / 1, 2):  # iterating over all odd indices
             if input_list[i] > input_list[i + 1]:
                 input_list[i], input_list[i + 1] = input_list[i + 1], input_list[i]
                 # swapping if elements not in order

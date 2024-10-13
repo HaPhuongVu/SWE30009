@@ -7,19 +7,13 @@ from tabulate import tabulate
 mutant_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), '../MUTANTS'))
 sys.path.insert(0, mutant_dir)
 
-from test_mr1 import get_mr_outputs
-
-# Base test cases with numbers to be added
 test_cases = [
-    ([5, 10, 3], 2),
-    ([7, 8, 15], 1),
-    ([8, 20, 11, 9], 29),
-    ([4, 1, 3], 2),
-    ([4, 8, 14, 3], 11),
+    ([5, 10, 3], [10, 5, 3]),     # Reordered
+    ([7, 8, 15], [15, 7, 8]),     # Reordered
+    ([8, 20, 11, 9], [20, 11, 8, 9]),  # Reordered
+    ([4, 1, 3], [3, 1, 4]),       # Reordered
+    ([4, 8, 14, 3], [14, 3, 4, 8])  # Reordered
 ]
-
-# Expected MR outputs
-expected_outputs = get_mr_outputs()
 
 def import_mutant(mutant_name):
     """
@@ -30,7 +24,7 @@ def import_mutant(mutant_name):
     mutant_module = importlib.import_module(mutant_name)
     return mutant_module.odd_even_sort
 
-def run_tests_for_mutant(mutant_name, test_cases, expected_outputs):
+def run_tests_for_mutant(mutant_name, test_cases):
     """ Run all test cases for a given mutant and return the detailed result """
     results = []  # Store results for each test case
 
@@ -39,33 +33,32 @@ def run_tests_for_mutant(mutant_name, test_cases, expected_outputs):
         odd_even_sort = import_mutant(mutant_name)
 
         # Loop through all test cases
-        for case, expected_output in zip(test_cases, expected_outputs):
-            source_list, add_number = case
+        for case in test_cases:
+            source_list, follow_up_list = case
 
-            # Step 1: First sort the original source list (source test case)
-            sorted_source = odd_even_sort(source_list[:])
+            # Step 1: Sort the source input (SI)
+            source_output = odd_even_sort(source_list[:])  # Sort SI
 
-            # Step 2: Prepare the follow-up list by adding the new number
-            follow_up_list = source_list + [add_number]
-            sorted_follow_up = odd_even_sort(follow_up_list.copy())  # Sort the follow-up list
+            # Step 2: Sort the follow-up input (FI) which is a reordered SI
+            follow_up_output = odd_even_sort(follow_up_list[:])  # Sort reordered FI
 
-            # Step 3: Verify the MR - Compare sorted follow-up with the expected output
-            result = "Survived" if sorted_follow_up == expected_output else "Killed"
+            # Step 3: The relation we are testing: sorted SI == sorted FI
+            result = "Survived" if source_output == follow_up_output else "Killed"
 
             # Append detailed results to the list
             results.append([
                 mutant_name,
-                source_list,
-                follow_up_list,
-                sorted_follow_up,
-                expected_output,
+                source_list,          # Display original source input (SI)
+                follow_up_list,       # FI before sorting (reordered SI)
+                follow_up_output,     # FI after sorting
+                source_output,        # Expected (same as sorted SI)
                 result
             ])
     except Exception as e:
         # In case of error, treat the mutant as killed and add the error message
-        for case, expected_output in zip(test_cases, expected_outputs):
-            source_list, add_number = case
-            results.append([mutant_name, source_list, add_number, "Error", expected_output, "Killed"])
+        for case in test_cases:
+            source_list, follow_up_list = case
+            results.append([mutant_name, source_list, follow_up_list, "Error", "Error", "Killed"])
 
     return results
 
@@ -78,11 +71,11 @@ if __name__ == "__main__":
         mutant_name = f"m{i}"  # Mutant file names (m1, m2, ..., m30)
 
         # Run tests for each mutant and collect the results
-        results = run_tests_for_mutant(mutant_name, test_cases, expected_outputs)
+        results = run_tests_for_mutant(mutant_name, test_cases)
         all_results.extend(results)  # Append all results from this mutant
 
     # Define table headers
-    headers = ["Mutant", "Source List", "Follow-up List", "Mutant Outputs", "Expected Output", "Result"]
+    headers = ["Mutant", "Source Input", "Follow-up Input", "Follow-up Output", "Source Output", "Result"]
 
     # Display the results as a table
     print(tabulate(all_results, headers, tablefmt="grid"))

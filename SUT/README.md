@@ -32,10 +32,11 @@ The original source code is from https://github.com/TheAlgorithms/Python/blob/ma
   2. /test_cases_mr2.py: Contain generated test cases for MR2
   3. /test_mr1.py: Script for generating expected outputs based on Metamorphic Relation 1.
   4. /test_mr2.py: Script for generating expected outputs based on Metamorphic Relation 2.
-  5. /test_mutant_for_mr1.py: Script for test whether the output of MR1 is equal to output of mutants, and generate out the comparision result.
-  6. test_mutant_for_mr2.py: Script for test whether the output of MR2 is equal to output of mutants, and generate out the comparision result.
+  5. /test_mutant_for_mr1.py: Script for test whether the SO and FO follow the MR1, and generate out the comparision result.
+  6. test_mutant_for_mr2.py: Script for test whether the SO and FO follow the MR2, and generate out the comparision result.
 
 ## How to Run Test Script
+
 - Please install tabulate library using command: pip install tabulate
 - Direct to the correct file: cd TEST/<test_file_name>
 - Run command: py <file_name>
