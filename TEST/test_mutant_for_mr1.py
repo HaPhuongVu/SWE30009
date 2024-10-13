@@ -46,7 +46,7 @@ def run_tests_for_mutant(mutant_name, test_cases, expected_outputs):
             sorted_source = odd_even_sort(source_list[:])
 
             # Step 2: Prepare the follow-up list by adding the new number
-            follow_up_list = sorted_source + [add_number]
+            follow_up_list = source_list + [add_number]
             sorted_follow_up = odd_even_sort(follow_up_list.copy())  # Sort the follow-up list
 
             # Step 3: Verify the MR - Compare sorted follow-up with the expected output
