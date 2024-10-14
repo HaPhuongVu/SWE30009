@@ -2,18 +2,14 @@ import sys
 import os
 import importlib
 from tabulate import tabulate
+from test_cases_mr1 import test_cases
 
-# Add the directory where the mutants are located to the system path
+# directory of the mutants file
 mutant_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), '../MUTANTS'))
 sys.path.insert(0, mutant_dir)
 
-test_cases = [
-    ([5, 10, 3], [10, 5, 3]),     # Reordered
-    ([7, 8, 15], [15, 7, 8]),     # Reordered
-    ([8, 20, 11, 9], [20, 11, 8, 9]),  # Reordered
-    ([4, 1, 3], [3, 1, 4]),       # Reordered
-    ([4, 8, 14, 3], [14, 3, 4, 8])  # Reordered
-]
+#same test case with MR1
+test_cases = test_cases
 
 def import_mutant(mutant_name):
     """
@@ -34,31 +30,30 @@ def run_tests_for_mutant(mutant_name, test_cases):
 
         # Loop through all test cases
         for case in test_cases:
-            source_list, follow_up_list = case
+            source_input, follow_up_input = case
 
             # Step 1: Sort the source input (SI)
-            source_output = odd_even_sort(source_list[:])  # Sort SI
+            source_output = odd_even_sort(source_input[:])  # Sort SI
 
             # Step 2: Sort the follow-up input (FI) which is a reordered SI
-            follow_up_output = odd_even_sort(follow_up_list[:])  # Sort reordered FI
+            follow_up_output = odd_even_sort(follow_up_input[:])  # Sort reordered FI
 
             # Step 3: The relation we are testing: sorted SI == sorted FI
             result = "Survived" if source_output == follow_up_output else "Killed"
 
-            # Append detailed results to the list
             results.append([
                 mutant_name,
-                source_list,          # Display original source input (SI)
-                follow_up_list,       # FI before sorting (reordered SI)
-                follow_up_output,     # FI after sorting
-                source_output,        # Expected (same as sorted SI)
+                source_input,          # Source Input
+                follow_up_input,       # Follow-up Input
+                follow_up_output,     # Follow-up Output
+                source_output,        # Source Output
                 result
             ])
     except Exception as e:
-        # In case of error, treat the mutant as killed and add the error message
+        # In case of error, it is killed mutant
         for case in test_cases:
-            source_list, follow_up_list = case
-            results.append([mutant_name, source_list, follow_up_list, "Error", "Error", "Killed"])
+            source_input, follow_up_input = case
+            results.append([mutant_name, source_input, follow_up_input, "Error", "Error", "Killed"])
 
     return results
 
@@ -66,16 +61,12 @@ if __name__ == "__main__":
     # Collect results in a list for all mutants
     all_results = []
 
-    # Loop over each mutant file (from m1 to m30)
+    # Loop over each mutant file (1 to 30)
     for i in range(1, 31):
-        mutant_name = f"m{i}"  # Mutant file names (m1, m2, ..., m30)
-
-        # Run tests for each mutant and collect the results
+        mutant_name = f"m{i}"
         results = run_tests_for_mutant(mutant_name, test_cases)
-        all_results.extend(results)  # Append all results from this mutant
-
-    # Define table headers
-    headers = ["Mutant", "Source Input", "Follow-up Input", "Follow-up Output", "Source Output", "Result"]
+        all_results.extend(results)
 
     # Display the results as a table
+    headers = ["Mutant", "Source Input", "Follow-up Input", "Follow-up Output", "Source Output", "Result"]
     print(tabulate(all_results, headers, tablefmt="grid"))
