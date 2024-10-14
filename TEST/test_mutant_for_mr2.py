@@ -50,7 +50,7 @@ def run_tests_for_mutant(mutant_name, test_cases):
                 add_number,             # k: Number added to each element
                 follow_up_input,        # FI: Follow-up input
                 follow_up_output,       # Follow-up output
-                [so + add_number for so in source_output],  # follow-up output (source output + k)
+                source_output,  # follow-up output (source output + k)
                 result
             ])
     except Exception as e:
@@ -79,5 +79,5 @@ if __name__ == "__main__":
         all_results.extend(results)
 
     # Display the results as a table
-    headers = ["Mutant", "Source List", "Added Number", "Follow-up Input", "Follow-up Output", "Expected Output", "Result"]
+    headers = ["Mutant", "Source Input", "Added Number", "Follow-up Input", "Follow-up Output", "Source Output", "Result"]
     print(tabulate(all_results, headers, tablefmt="grid"))
